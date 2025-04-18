@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/context/auth-context";
 import { VacationProvider } from "@/context/vacation-context";
 import LoginPage from "@/pages/login";
+import RegisterPage from "@/pages/register";
 import NotFound from "@/pages/NotFound";
 import { AppShell } from "@/components/layout/app-shell";
 import Dashboard from "@/pages/Dashboard";
@@ -26,6 +27,7 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
               
               <Route element={<AppShell />}>
                 <Route path="/" element={<Dashboard />} />
