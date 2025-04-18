@@ -3,7 +3,7 @@ import React from "react";
 import { VacationRequest } from "@/types/vacation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock } from "lucide-react";
+import { Calendar, Clock, User, Briefcase } from "lucide-react";
 import { format } from "date-fns";
 
 interface RequestListProps {
@@ -50,8 +50,16 @@ export const RequestList: React.FC<RequestListProps> = ({
               >
                 <div className="flex justify-between mb-2">
                   <div className="font-medium">
-                    {showEmployee && request.userName}
-                    {!showEmployee && request.reason}
+                    {showEmployee ? (
+                      <div className="space-y-1">
+                        <div>{request.userName}</div>
+                        <div className="text-sm text-muted-foreground">
+                          {request.userRank} {request.userWarName} - {request.userDepartment}
+                        </div>
+                      </div>
+                    ) : (
+                      request.reason
+                    )}
                   </div>
                   <Badge className={getStatusColor(request.status)}>
                     {request.status.charAt(0).toUpperCase() + request.status.slice(1)}
@@ -69,27 +77,24 @@ export const RequestList: React.FC<RequestListProps> = ({
                   )}
                   
                   {showEmployee && (
-                    <div className="text-sm">
-                      {request.reason}
-                    </div>
-                  )}
-                  
-                  <div className="flex items-center gap-2">
-                    {showEmployee ? (
-                      <>
+                    <>
+                      <div className="text-sm">
+                        {request.reason}
+                      </div>
+                      <div className="flex items-center gap-2">
                         <Calendar className="h-4 w-4" />
                         <span>
                           {format(new Date(request.startDate), "MMM d, yyyy")} - {format(new Date(request.endDate), "MMM d, yyyy")}
                         </span>
-                      </>
-                    ) : (
-                      <>
-                        <Clock className="h-4 w-4" />
-                        <span>
-                          Requested on {format(new Date(request.createdAt), "MMM d, yyyy")}
-                        </span>
-                      </>
-                    )}
+                      </div>
+                    </>
+                  )}
+                  
+                  <div className="flex items-center gap-2">
+                    <Clock className="h-4 w-4" />
+                    <span>
+                      Requested on {format(new Date(request.createdAt), "MMM d, yyyy")}
+                    </span>
                   </div>
                   
                   {request.supervisorComment && (

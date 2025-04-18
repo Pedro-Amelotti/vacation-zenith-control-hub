@@ -12,6 +12,8 @@ export const RegisterForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
+  const [warName, setWarName] = useState("");
+  const [rank, setRank] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -27,7 +29,9 @@ export const RegisterForm = () => {
         options: {
           data: {
             full_name: fullName,
-            department: 'secao', // Default department as per requirements
+            war_name: warName,
+            rank: rank,
+            department: 'secao',
           },
         },
       });
@@ -92,6 +96,28 @@ export const RegisterForm = () => {
               placeholder="Enter your full name"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="warName">Nome de Guerra</Label>
+            <Input
+              id="warName"
+              type="text"
+              placeholder="Enter your nome de guerra"
+              value={warName}
+              onChange={(e) => setWarName(e.target.value)}
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="rank">Posto/Grad</Label>
+            <Input
+              id="rank"
+              type="text"
+              placeholder="Enter your posto/grad"
+              value={rank}
+              onChange={(e) => setRank(e.target.value)}
               required
             />
           </div>

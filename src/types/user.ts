@@ -7,5 +7,7 @@ export interface User {
   email: string;
   role: UserRole;
   department: string;
+  warName: string;     // nome de guerra
+  rank: string;        // posto/grad
   supervisorId?: string;
 }
