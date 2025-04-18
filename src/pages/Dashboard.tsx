@@ -33,19 +33,19 @@ const DashboardPage: React.FC = () => {
         <StatsCard
           title="Total de Dias Usados"
           value={totalVacationDays}
-          description="Total days approved this year"
+          description="Total de Dias Aprovados esse Ano"
           icon={<Calendar />}
         />
         <StatsCard
-          title="Pending Requests"
+          title="Pedidos Pendentes"
           value={pendingCount}
-          description="Awaiting supervisor approval"
+          description="Aguardando Autorização"
           icon={<Clock />}
         />
         <StatsCard
-          title="Approved Requests"
+          title="Pedidos Aprovados"
           value={approvedRequests.length}
-          description="Successfully approved vacations"
+          description="Dispensas aprovadas"
           icon={<CheckCircle />}
         />
       </div>
@@ -54,8 +54,8 @@ const DashboardPage: React.FC = () => {
         <RequestForm />
         <RequestList
           requests={userRequests.slice(0, 5)}
-          title="Your Recent Requests"
-          emptyMessage="You haven't made any vacation requests yet."
+          title="Seus pedidos de deslocamento recentes"
+          emptyMessage="Você ainda não solicitou nenhum deslocamento."
         />
       </div>
     </div>
