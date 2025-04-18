@@ -1,17 +1,18 @@
 
 import React, { useState } from "react";
 import { useVacation } from "@/context/vacation-context";
+import { useAuth } from "@/context/auth-context";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Calendar, CalendarIcon } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { DateRange } from "react-day-picker";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { Calendar as CalendarComponent } from "@/components/ui/calendar";
+import { Calendar } from "@/components/ui/calendar";
 
 export const RequestForm: React.FC = () => {
   const [date, setDate] = useState<DateRange | undefined>({
@@ -20,11 +21,12 @@ export const RequestForm: React.FC = () => {
   });
   const [reason, setReason] = useState("");
   const { createRequest } = useVacation();
+  const { user } = useAuth();
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!date?.from || !date?.to) {
+    if (!date?.from || !date?.to || !user) {
       return;
     }
     
@@ -32,6 +34,9 @@ export const RequestForm: React.FC = () => {
       startDate: format(date.from, "yyyy-MM-dd"),
       endDate: format(date.to, "yyyy-MM-dd"),
       reason,
+      userWarName: user.warName,
+      userRank: user.rank,
+      userDepartment: user.department
     });
     
     // Reset form
@@ -79,7 +84,7 @@ export const RequestForm: React.FC = () => {
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
-                <CalendarComponent
+                <Calendar
                   initialFocus
                   mode="range"
                   defaultMonth={date?.from}

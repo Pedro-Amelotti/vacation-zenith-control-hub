@@ -10,6 +10,8 @@ export const MOCK_USERS: User[] = [
     email: "employee@example.com",
     role: "employee",
     department: "Engineering",
+    warName: "John",
+    rank: "Soldado",
     supervisorId: "2"
   },
   {
@@ -17,14 +19,18 @@ export const MOCK_USERS: User[] = [
     name: "Jane Supervisor",
     email: "supervisor@example.com",
     role: "supervisor",
-    department: "Engineering"
+    department: "Engineering",
+    warName: "Jane",
+    rank: "Capitão"
   },
   {
     id: "3",
     name: "Alice Admin",
     email: "admin@example.com",
     role: "admin",
-    department: "Administration"
+    department: "Administration",
+    warName: "Alice",
+    rank: "Coronel"
   },
   {
     id: "4",
@@ -32,6 +38,8 @@ export const MOCK_USERS: User[] = [
     email: "bob@example.com",
     role: "employee",
     department: "Marketing",
+    warName: "Bob",
+    rank: "Cabo",
     supervisorId: "2"
   },
   {
@@ -40,6 +48,8 @@ export const MOCK_USERS: User[] = [
     email: "charlie@example.com",
     role: "employee",
     department: "Finance",
+    warName: "Charlie",
+    rank: "Sargento",
     supervisorId: "2"
   }
 ];
@@ -50,6 +60,9 @@ export const MOCK_VACATION_REQUESTS: VacationRequest[] = [
     id: "1",
     userId: "1",
     userName: "John Employee",
+    userWarName: "John",
+    userRank: "Soldado",
+    userDepartment: "Engineering",
     startDate: "2025-05-01",
     endDate: "2025-05-10",
     reason: "Annual family vacation",
@@ -63,6 +76,9 @@ export const MOCK_VACATION_REQUESTS: VacationRequest[] = [
     id: "2",
     userId: "4",
     userName: "Bob Employee",
+    userWarName: "Bob",
+    userRank: "Cabo",
+    userDepartment: "Marketing",
     startDate: "2025-06-15",
     endDate: "2025-06-20",
     reason: "Wedding attendance",
@@ -77,6 +93,9 @@ export const MOCK_VACATION_REQUESTS: VacationRequest[] = [
     id: "3",
     userId: "5",
     userName: "Charlie Employee",
+    userWarName: "Charlie",
+    userRank: "Sargento",
+    userDepartment: "Finance",
     startDate: "2025-04-25",
     endDate: "2025-05-05",
     reason: "Medical leave",
@@ -91,6 +110,9 @@ export const MOCK_VACATION_REQUESTS: VacationRequest[] = [
     id: "4",
     userId: "1",
     userName: "John Employee",
+    userWarName: "John",
+    userRank: "Soldado",
+    userDepartment: "Engineering",
     startDate: "2025-07-01",
     endDate: "2025-07-15",
     reason: "Summer holiday",
