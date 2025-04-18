@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
@@ -7,13 +6,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
+import { useDepartments } from "@/context/department-context";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export const RegisterForm = () => {
+  const { departments } = useDepartments();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [warName, setWarName] = useState("");
   const [rank, setRank] = useState("");
+  const [department, setDepartment] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -31,7 +40,7 @@ export const RegisterForm = () => {
             full_name: fullName,
             war_name: warName,
             rank: rank,
-            department: 'secao',
+            department: department,
           },
         },
       });
@@ -120,6 +129,24 @@ export const RegisterForm = () => {
               onChange={(e) => setRank(e.target.value)}
               required
             />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="department">Department</Label>
+            <Select
+              value={department}
+              onValueChange={setDepartment}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select a department" />
+              </SelectTrigger>
+              <SelectContent>
+                {departments.map((dept) => (
+                  <SelectItem key={dept.id} value={dept.name}>
+                    {dept.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </CardContent>
         <CardFooter>

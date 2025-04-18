@@ -1,9 +1,8 @@
-
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/auth-context";
 import { Button } from "@/components/ui/button";
-import { Calendar, LogOut, User, Users, BarChart } from "lucide-react";
+import { Calendar, LogOut, User, Users, BarChart, Settings } from "lucide-react";
 
 export const Navbar: React.FC = () => {
   const { user, logout } = useAuth();
@@ -42,9 +41,16 @@ export const Navbar: React.FC = () => {
               )}
               
               {user.role === 'admin' && (
-                <Link to="/reports" className="text-gray-700 hover:text-vacation-highlight dark:text-gray-300 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                  Reports
-                </Link>
+                <>
+                  <Link to="/admin/departments" className="text-gray-700 hover:text-vacation-highlight dark:text-gray-300 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                    <Settings className="inline-block w-4 h-4 mr-1" />
+                    Departments
+                  </Link>
+                  <Link to="/admin/users" className="text-gray-700 hover:text-vacation-highlight dark:text-gray-300 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                    <Users className="inline-block w-4 h-4 mr-1" />
+                    Users
+                  </Link>
+                </>
               )}
             </div>
           </div>
