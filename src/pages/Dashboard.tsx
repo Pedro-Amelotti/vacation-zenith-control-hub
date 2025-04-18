@@ -31,7 +31,7 @@ const DashboardPage: React.FC = () => {
     <div className="space-y-8">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <StatsCard
-          title="Vacation Days Used"
+          title="Total de Dias Usados"
           value={totalVacationDays}
           description="Total days approved this year"
           icon={<Calendar />}
