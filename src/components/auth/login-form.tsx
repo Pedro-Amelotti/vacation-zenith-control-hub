@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { LogIn } from "lucide-react";
 
 export const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -68,7 +69,17 @@ export const LoginForm = () => {
         </CardContent>
         <CardFooter>
           <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Signing in..." : "Sign In"}
+            {isLoading ? (
+              <span className="flex items-center gap-2">
+                <div className="h-4 w-4 border-2 border-current border-t-transparent animate-spin rounded-full"></div>
+                Signing in...
+              </span>
+            ) : (
+              <span className="flex items-center gap-2">
+                <LogIn className="h-4 w-4" />
+                Sign In
+              </span>
+            )}
           </Button>
         </CardFooter>
       </form>

@@ -1,7 +1,7 @@
 
 import React from "react";
 import { useAuth } from "@/context/auth-context";
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import { LoginForm } from "@/components/auth/login-form";
 
 const LoginPage: React.FC = () => {
@@ -29,6 +29,13 @@ const LoginPage: React.FC = () => {
       </div>
       
       <LoginForm />
+      
+      <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+        Don't have an account?{" "}
+        <Link to="/register" className="font-medium text-primary hover:underline">
+          Register now
+        </Link>
+      </p>
       
       <div className="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
         <p>For demo purposes, use one of these emails:</p>
