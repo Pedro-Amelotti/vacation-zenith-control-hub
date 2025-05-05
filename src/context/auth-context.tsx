@@ -1,6 +1,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { User, UserRole } from "@/types/user";
+import { getUserByEmail, addUser, initDB } from "@/utils/database";
 
 interface AuthContextType {
   user: User | null;
@@ -8,11 +9,19 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
+  register: (userData: {
+    email: string;
+    password: string;
+    name: string;
+    warName: string;
+    rank: string;
+    department: string;
+  }) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Mock users for demonstration
+// Mock users for demonstration - will be replaced with database lookups
 const MOCK_USERS: User[] = [
   {
     id: "1",
@@ -48,19 +57,35 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLoading, setIsLoading] = useState<boolean>(true);
   
   useEffect(() => {
-    // Check for saved user in local storage (simulating persistence)
-    const savedUser = localStorage.getItem("vacation-system-user");
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-    setIsLoading(false);
+    // Initialize the database
+    const init = async () => {
+      await initDB();
+      
+      // Check for saved user in local storage (simulating persistence)
+      const savedUser = localStorage.getItem("vacation-system-user");
+      if (savedUser) {
+        setUser(JSON.parse(savedUser));
+      }
+      setIsLoading(false);
+    };
+    
+    init();
   }, []);
   
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      // In a real application, this would be an API call
-      // For demo purposes, we'll use the mock data
+      // Try to use the database first
+      const dbUser = await getUserByEmail(email);
+      
+      if (dbUser && dbUser.password === password) {
+        const { password: _, ...userWithoutPassword } = dbUser;
+        setUser(userWithoutPassword);
+        localStorage.setItem("vacation-system-user", JSON.stringify(userWithoutPassword));
+        return;
+      }
+      
+      // Fallback to mock data for development
       const foundUser = MOCK_USERS.find(user => user.email === email);
       
       if (!foundUser) {
@@ -68,12 +93,48 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
       
       // Simulate a network delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 300));
       
       setUser(foundUser);
       localStorage.setItem("vacation-system-user", JSON.stringify(foundUser));
     } catch (error) {
       console.error("Login failed:", error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  const register = async (userData: {
+    email: string;
+    password: string;
+    name: string;
+    warName: string;
+    rank: string;
+    department: string;
+  }) => {
+    setIsLoading(true);
+    try {
+      // Check if user already exists
+      const existingUser = await getUserByEmail(userData.email);
+      if (existingUser) {
+        throw new Error("User with this email already exists");
+      }
+      
+      // Create new user with default role of "employee"
+      await addUser({
+        email: userData.email,
+        password: userData.password,
+        name: userData.name,
+        warName: userData.warName,
+        rank: userData.rank,
+        department: userData.department,
+        role: "employee" as UserRole,
+      });
+      
+      // Success message (but don't log in automatically)
+    } catch (error) {
+      console.error("Registration failed:", error);
       throw error;
     } finally {
       setIsLoading(false);
@@ -92,7 +153,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isAuthenticated: !!user,
         login,
         logout,
-        isLoading
+        isLoading,
+        register
       }}
     >
       {children}
